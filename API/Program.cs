@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Application.Scholarships;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,8 +16,10 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<Persistence.DataContext>(opt => 
 {
-    //opt.UseMySQL(builder.Configuration.GetConnectionString("Schl"));
-    opt.UseMySql("server=localhost;user=root;database=schl;password=YL8416&st6y;port=3306", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
+    var connectionString = builder.Configuration.GetConnectionString("Schl");
+    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    // opt.UseMySQL(builder.Configuration.GetConnectionString("Schl"));
+    // opt.UseMySql("server=localhost;user=root;database=schl;password=276p;port=3306", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
 });
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(List.Handler).Assembly));
