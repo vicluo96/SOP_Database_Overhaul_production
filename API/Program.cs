@@ -14,13 +14,11 @@ builder.Services.AddControllers();
 //     opt.UseMySQL(builder.Configuration.GetConnectionString("Default"));
 // });
 
-builder.Services.AddDbContext<Persistence.DataContext>(opt => 
-{
-    var connectionString = builder.Configuration.GetConnectionString("Schl");
-    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-    // opt.UseMySQL(builder.Configuration.GetConnectionString("Schl"));
-    // opt.UseMySql("server=localhost;user=root;database=schl;password=276p;port=3306", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
-});
+
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("Schl"), 
+                     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Schl")))
+);
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(List.Handler).Assembly));
 

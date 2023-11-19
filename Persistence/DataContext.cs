@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 
 namespace Persistence;
 
@@ -25,13 +27,15 @@ namespace Persistence;
 
 public partial class DataContext  : DbContext
 {
+    private readonly IConfiguration _configuration;
     public DataContext ()
     {
     }
 
-    public DataContext (DbContextOptions<DataContext> options)
+    public DataContext (DbContextOptions<DataContext> options, IConfiguration configuration)
         : base(options)
     {
+        _configuration = configuration;
     }
 
     public virtual DbSet<Advising> Advisings { get; set; }
@@ -52,6 +56,7 @@ public partial class DataContext  : DbContext
 
     // public virtual DbSet<T10> T10s { get; set; }
 
+<<<<<<< HEAD
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //     => optionsBuilder.UseMySql("server=localhost;user=root;database=schl;password=276p;port=3306", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -67,6 +72,16 @@ public partial class DataContext  : DbContext
         }
     }
 
+=======
+   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseMySql(_configuration.GetConnectionString("Schl"), 
+                                    ServerVersion.AutoDetect(_configuration.GetConnectionString("Schl")));
+        }
+    }
+>>>>>>> 7f4774c (ConnectString hide and clean)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
