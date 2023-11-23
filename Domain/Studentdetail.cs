@@ -7,12 +7,16 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Domain;
 
 [PrimaryKey("DetailId", "StudentbasicStudentId")]
+[PrimaryKey("DetailId", "StudentbasicStudentId")]
 [Table("studentdetail")]
 [Index("DetailId", Name = "detailId_UNIQUE", IsUnique = true)]
+[Index("StudentbasicStudentId", Name = "fk_studentdetail_studentbasic1")]
 [Index("StudentbasicStudentId", Name = "fk_studentdetail_studentbasic1")]
 public partial class Studentdetail
 {
     [Key]
+    [Column("detailID")]
+    [StringLength(36)]
     [Column("detailID")]
     [StringLength(36)]
     public string DetailId { get; set; }
@@ -74,7 +78,23 @@ public partial class Studentdetail
     [Column("consentFormE11")]
     [StringLength(255)]
     public string ConsentFormE11 { get; set; }
+    [Column("consentFormE11")]
+    [StringLength(255)]
+    public string ConsentFormE11 { get; set; }
 
+    [Column("consentFormT10")]
+    [StringLength(255)]
+    public string ConsentFormT10 { get; set; }
+
+    [Column("transcriptE11")]
+    [StringLength(255)]
+    public string TranscriptE11 { get; set; }
+
+    [Column("transcriptT10")]
+    [StringLength(255)]
+    public string TranscriptT10 { get; set; }
+
+    [Column("cvE11")]
     [Column("consentFormT10")]
     [StringLength(255)]
     public string ConsentFormT10 { get; set; }
@@ -90,7 +110,9 @@ public partial class Studentdetail
     [Column("cvE11")]
     [StringLength(100)]
     public string CvE11 { get; set; }
+    public string CvE11 { get; set; }
 
+    [Column("cvT10")]
     [Column("cvT10")]
     [StringLength(100)]
     public string CvT10 { get; set; }
