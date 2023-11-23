@@ -109,9 +109,7 @@ public partial class DataContext  : DbContext
 
         modelBuilder.Entity<Studentbasic>(entity =>
         {
-            entity.HasKey(e => new { e.StudentId, e.StudentdetailDetailId, e.AdvisingPrepId })
-                .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+            entity.HasKey(e => e.StudentId).HasName("PRIMARY");
 
             // entity.HasOne(d => d.AdvisingPrep).WithMany(p => p.Studentbasics)
             //     .OnDelete(DeleteBehavior.ClientSetNull)
