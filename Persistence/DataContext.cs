@@ -56,23 +56,6 @@ public partial class DataContext  : DbContext
 
     // public virtual DbSet<T10> T10s { get; set; }
 
-<<<<<<< HEAD
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //     => optionsBuilder.UseMySql("server=localhost;user=root;database=schl;password=276p;port=3306", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
-            var connectionString = configuration.GetConnectionString("schl");
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-        }
-    }
-
-=======
    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -81,7 +64,6 @@ public partial class DataContext  : DbContext
                                     ServerVersion.AutoDetect(_configuration.GetConnectionString("Schl")));
         }
     }
->>>>>>> 7f4774c (ConnectString hide and clean)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
