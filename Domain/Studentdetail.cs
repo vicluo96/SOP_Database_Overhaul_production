@@ -4,22 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Domain;
+namespace API.Domain;
 
+[PrimaryKey("DetailId", "StudentbasicStudentId")]
 [Table("studentdetail")]
 [Index("DetailId", Name = "detailId_UNIQUE", IsUnique = true)]
-[Index("StudentId", Name = "studentID_UNIQUE", IsUnique = true)]
+[Index("StudentbasicStudentId", Name = "fk_studentdetail_studentbasic1")]
 public partial class Studentdetail
 {
     [Key]
-    [Column("detailId")]
-    [StringLength(50)]
+    [Column("detailID")]
+    [StringLength(36)]
     public string DetailId { get; set; }
-
-    [Required]
-    [Column("studentID")]
-    [StringLength(45)]
-    public string StudentId { get; set; }
 
     [Column("gradYear", TypeName = "year")]
     public short? GradYear { get; set; }
@@ -75,18 +71,36 @@ public partial class Studentdetail
     [StringLength(45)]
     public string HighDegree { get; set; }
 
-    [Column("consentForm")]
-    [StringLength(45)]
-    public string ConsentForm { get; set; }
+    [Column("consentFormE11")]
+    [StringLength(255)]
+    public string ConsentFormE11 { get; set; }
 
-    [Column("transcript")]
+    [Column("consentFormT10")]
+    [StringLength(255)]
+    public string ConsentFormT10 { get; set; }
+
+    [Column("transcriptE11")]
+    [StringLength(255)]
+    public string TranscriptE11 { get; set; }
+
+    [Column("transcriptT10")]
+    [StringLength(255)]
+    public string TranscriptT10 { get; set; }
+
+    [Column("cvE11")]
     [StringLength(100)]
-    public string Transcript { get; set; }
+    public string CvE11 { get; set; }
 
-    [Column("cv")]
+    [Column("cvT10")]
     [StringLength(100)]
-    public string Cv { get; set; }
+    public string CvT10 { get; set; }
 
-    [InverseProperty("StudentdetailDetail")]
-    public virtual ICollection<Studentbasic> Studentbasics { get; set; } = new List<Studentbasic>();
+    [Key]
+    [Column("studentbasic_studentID")]
+    [StringLength(36)]
+    public string StudentbasicStudentId { get; set; }
+
+    [ForeignKey("StudentbasicStudentId")]
+    [InverseProperty("Studentdetails")]
+    public virtual Studentbasic StudentbasicStudent { get; set; }
 }
