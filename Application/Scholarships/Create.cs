@@ -27,10 +27,6 @@ public class Create
         {
             await _context.Studentbasics.AddAsync(request.Studentbasic);
             await _context.SaveChangesAsync();
-            await _context.Advisings.AddAsync(request.Advising);
-            await _context.SaveChangesAsync();
-            await _context.Studentdetails.AddAsync(request.Studentdetail);
-            await _context.SaveChangesAsync();
  
             //add new handler
         }

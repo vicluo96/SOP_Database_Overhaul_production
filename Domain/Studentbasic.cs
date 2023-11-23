@@ -4,19 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Domain;
 
-[PrimaryKey("StudentId", "StudentdetailDetailId", "AdvisingPrepId")]
 [Table("studentbasic")]
-[Index("PersonalEmail", Name = "EmailAddress", IsUnique = true)]
-// [Index("AdvisingPrepId", Name = "fk_studentbasic_advising1")]
-// [Index("StudentdetailDetailId", Name = "fk_studentbasic_studentdetail1")]
 public partial class Studentbasic
 {
     [Key]
     [Column("studentID")]
-    [StringLength(50)]
+    [StringLength(36)]
     public string StudentId { get; set; }
 
     [Column("legalFirstName")]
@@ -39,6 +34,7 @@ public partial class Studentbasic
     [StringLength(100)]
     public string Email { get; set; }
 
+    [Column("personalEmail")]
     [StringLength(100)]
     public string PersonalEmail { get; set; }
 
@@ -50,21 +46,35 @@ public partial class Studentbasic
     [Precision(3, 2)]
     public decimal? UciGpa { get; set; }
 
-    [Key]
-    [Column("studentdetail_detailId")]
-    [StringLength(50)]
-    public string StudentdetailDetailId { get; set; }
+    [InverseProperty("StudentbasicStudent")]
+    public virtual ICollection<Advising> Advisings { get; set; } = new List<Advising>();
 
-    [Key]
-    [Column("advising_prepID")]
-    [StringLength(45)]
-    public string AdvisingPrepId { get; set; }
+    // [InverseProperty("StudentbasicStudent")]
+    // public virtual ICollection<College> Colleges { get; set; } = new List<College>();
 
-    [ForeignKey("AdvisingPrepId")]
-    [InverseProperty("Studentbasics")]
-    // public virtual Advising AdvisingPrep { get; set; }
+    // [InverseProperty("StudentbasicStudent")]
+    // public virtual ICollection<Major> Majors { get; set; } = new List<Major>();
 
-    // [ForeignKey("StudentdetailDetailId")]
-    // [InverseProperty("Studentbasics")]
-    public virtual Studentdetail StudentdetailDetail { get; set; }
+    // [InverseProperty("StudentbasicStudent")]
+    // public virtual ICollection<Minor> Minors { get; set; } = new List<Minor>();
+
+    // [InverseProperty("StudentbasicStudent")]
+    // public virtual ICollection<QuestionResponse> QuestionResponses { get; set; } = new List<QuestionResponse>();
+
+    // [InverseProperty("StudentbasicStudent")]
+    // public virtual ICollection<Recommender> Recommenders { get; set; } = new List<Recommender>();
+
+    // [InverseProperty("StudentbasicStudent")]
+    // public virtual ICollection<Result> Results { get; set; } = new List<Result>();
+
+    [InverseProperty("StudentbasicStudent")]
+    public virtual ICollection<Studentdetail> Studentdetails { get; set; } = new List<Studentdetail>();
+
+    // [ForeignKey("StudentbasicStudentId")]
+    // [InverseProperty("StudentbasicStudents")]
+    // public virtual ICollection<E11> E11E11s { get; set; } = new List<E11>();
+
+    // [ForeignKey("StudentbasicStudentId")]
+    // [InverseProperty("StudentbasicStudents")]
+    // public virtual ICollection<T10> T10T10s { get; set; } = new List<T10>();
 }

@@ -22,31 +22,12 @@ public class ScholarshipsController : BaseApiController
         return await Mediator.Send(new Details.Query{StudentId = StudentId});
     }
 
-    // [HttpPost]
-    // public async Task<IActionResult> CreateScholarship(Studentbasic studentbasic)
-    // {
-    //     await Mediator.Send(new Create.Command {Studentbasic = studentbasic});
-    //     return Ok();
-    // }
-
     [HttpPost]
     public async Task<IActionResult> CreateScholarship(Studentbasic studentbasic)
     {
         await Mediator.Send(new Create.Command {Studentbasic = studentbasic});
         return Ok();
     }
-
-    public async Task<IActionResult> CreateDetail(Studentdetail studentdetail){
-        await Mediator.Send(new Create.Command {Studentdetail = studentdetail});
-        return Ok();
-    }
-
-    public async Task<IActionResult> Create(Advising advising){
-        await Mediator.Send(new Create.Command {Advising = advising});
-        return Ok();
-    }
-
-
 
 }
 
