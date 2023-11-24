@@ -9,9 +9,6 @@ namespace Persistence;
 public partial class DataContext : DbContext
 {
     private readonly IConfiguration? _configuration;
-    public DataContext ()
-    {
-    }
 
     public DataContext (DbContextOptions<DataContext> options, IConfiguration configuration)
         : base(options)
@@ -39,18 +36,13 @@ public partial class DataContext : DbContext
 
     public virtual DbSet<Studentbasic> Studentbasics { get; set; }
     public virtual DbSet<Studentdetail> Studentdetails { get; set; }
-    public virtual DbSet<Advising> Advisings { get; set; }
 
 
-
-//     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//         => optionsBuilder.UseMySql("server=localhost;user=root;database=;password=;port=3306", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.31-mysql"));
 
     // hide the password
    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
+        if (!optionsBuilder.IsConfigured && _configuration != null)
         {
             optionsBuilder.UseMySql(_configuration.GetConnectionString("Schl"), 
                                     ServerVersion.AutoDetect(_configuration.GetConnectionString("Schl")));
@@ -197,16 +189,7 @@ public partial class DataContext : DbContext
         {
             entity.HasKey(e => e.StudentId).HasName("PRIMARY");
         });
-        modelBuilder.Entity<Advising>(entity =>
-        {
-            entity.HasKey(e => new { e.DetailId, e.StudentbasicStudentId })
-                .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-
-            entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Studentdetails)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_studentdetail_studentbasic1");
-        });
+       
 
         // modelBuilder.Entity<T10>(entity =>
         // {

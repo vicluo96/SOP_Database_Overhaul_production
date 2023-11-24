@@ -12,7 +12,6 @@ public partial class Studentbasic
     [Key]
     [Column("studentID")]
     [StringLength(36)]
-    [StringLength(36)]
     public string StudentId { get; set; }
 
     [Column("legalFirstName")]
@@ -35,7 +34,6 @@ public partial class Studentbasic
     [StringLength(100)]
     public string Email { get; set; }
 
-    [Column("personalEmail")]
     [Column("personalEmail")]
     [StringLength(100)]
     public string PersonalEmail { get; set; }
