@@ -17,17 +17,14 @@ public partial class Advising
     [StringLength(36)]
     public string PrepId { get; set; }
 
-    [Required]
     [Column("prepStatus")]
     [StringLength(10)]
     public string PrepStatus { get; set; }
 
-    [Required]
     [Column("orienT10")]
     [StringLength(10)]
     public string OrienT10 { get; set; }
 
-    [Required]
     [Column("orienE11")]
     [StringLength(10)]
     public string OrienE11 { get; set; }

@@ -10,7 +10,6 @@ namespace Domain;
 [Table("studentdetail")]
 [Index("DetailId", Name = "detailId_UNIQUE", IsUnique = true)]
 [Index("StudentbasicStudentId", Name = "fk_studentdetail_studentbasic1")]
-
 public partial class Studentdetail
 {
     [Key]
@@ -30,43 +29,43 @@ public partial class Studentdetail
     public decimal? LeadExpMon { get; set; }
 
     [Column("usCitizen")]
-    public sbyte? UsCitizen { get; set; }
+    public bool? UsCitizen { get; set; }
 
     [Column("tranStu")]
-    public sbyte? TranStu { get; set; }
+    public bool? TranStu { get; set; }
 
     [Column("lowIncome")]
-    public sbyte? LowIncome { get; set; }
+    public bool? LowIncome { get; set; }
 
     [Column("pbk")]
-    public sbyte? Pbk { get; set; }
+    public bool? Pbk { get; set; }
 
     [Column("chc")]
-    public sbyte? Chc { get; set; }
+    public bool? Chc { get; set; }
 
     [Column("urop")]
-    public sbyte? Urop { get; set; }
+    public bool? Urop { get; set; }
 
     [Column("ushp")]
-    public sbyte? Ushp { get; set; }
+    public bool? Ushp { get; set; }
 
     [Column("honorProg")]
-    public sbyte? HonorProg { get; set; }
+    public bool? HonorProg { get; set; }
 
     [Column("sage")]
-    public sbyte? Sage { get; set; }
+    public bool? Sage { get; set; }
 
     [Column("paa")]
-    public sbyte? Paa { get; set; }
+    public bool? Paa { get; set; }
 
     [Column("larc")]
-    public sbyte? Larc { get; set; }
+    public bool? Larc { get; set; }
 
     [Column("asuci")]
-    public sbyte? Asuci { get; set; }
+    public bool? Asuci { get; set; }
 
     [Column("veteran")]
-    public sbyte? Veteran { get; set; }
+    public bool? Veteran { get; set; }
 
     [Column("highDegree")]
     [StringLength(45)]
