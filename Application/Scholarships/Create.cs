@@ -15,7 +15,7 @@ public class Create
         public List<Major>? Majors { get ; set; }
         public List<Minor>? Minors { get ; set; }
         public List<Question>? Questions { get ; set; }
-        public List<QuestionResponse>? QuestionResponses { get ; set; }
+        public List<string>? QuestionResponses { get ; set; }
         public List<Recommender>? Recommenders { get ; set; }
         public List<Result>? Results { get ; set; }
         public List<Scholarship>? Scholarships { get ; set; }
@@ -87,18 +87,23 @@ public class Create
         // Iterate over QuestionResponse collections
         if (request.QuestionResponses != null)
         {
-            int questionId = 11; // Starting question ID
-            foreach (var questionResponse in request.QuestionResponses)
+            int questionId = 1; 
+            foreach (var responseText in request.QuestionResponses) 
             {
-                questionResponse.StudentbasicStudentId = studentbasic.StudentId;
-                questionResponse.QuestionsQuestionId = questionId++; 
-
-                // Assuming ResponseText is a property of QuestionResponse
-                questionResponse.ResponseText = questionResponse.ResponseText; 
+                var questionResponse = new QuestionResponse
+                {
+                    StudentbasicStudentId = studentbasic.StudentId,
+                    QuestionsQuestionId = questionId++, 
+                    ResponseText = responseText // Assign the string directly to ResponseText
+                };
 
                 _context.QuestionResponses.Add(questionResponse);
             }
+
+            await _context.SaveChangesAsync(cancellationToken);
         }
+
+
 
 
         // Iterate over Recommender collections
