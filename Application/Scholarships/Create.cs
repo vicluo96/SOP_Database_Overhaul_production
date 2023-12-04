@@ -19,6 +19,7 @@ public class Create
         public List<Recommender>? Recommenders { get ; set; }
         public List<Result>? Results { get ; set; }
         public List<Scholarship>? Scholarships { get ; set; }
+        public List<int> ScholarshipIds { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Unit>
@@ -35,7 +36,38 @@ public class Create
         // add Studentbasic entity
         var studentbasic = request.Studentbasic;
         studentbasic.StudentId = System.Guid.NewGuid().ToString();
-        await _context.Studentbasics.AddAsync(studentbasic, cancellationToken);
+        
+        // // interate scholarshipId in request.ScholarSelections and add to ScholarshipsSchols
+        // if (request.ScholarshipSelections != null)
+        // {
+        //     int scholarshipId = 1;
+        //     foreach (var scholarselection in request.ScholarshipSelections)
+        //     {
+        //         if (scholarselection)
+        //         {
+        //             var scholarship = await _context.Scholarships.FindAsync(scholarshipId);
+        //             if (scholarship != null)
+        //             {
+        //                 studentbasic.ScholarshipsSchols.Add(scholarship);
+        //             }
+        //         }  
+        //         scholarshipId++; 
+        //     }
+        //     await _context.Studentbasics.AddAsync(studentbasic, cancellationToken);
+        // }
+
+        // interate scholarshipId in request.ScholarSelections and add to ScholarshipsSchols
+            foreach (var scholarshipId in request.ScholarshipIds)
+            {
+                var scholarship = await _context.Scholarships.FindAsync(scholarshipId);
+                if (scholarship != null)
+                {
+                    studentbasic.ScholarshipsSchols.Add(scholarship);
+                }
+            }  
+            await _context.Studentbasics.AddAsync(studentbasic, cancellationToken);
+        
+
 
         // add Studentdetail entity
         var studentdetail = request.Studentdetail; 
