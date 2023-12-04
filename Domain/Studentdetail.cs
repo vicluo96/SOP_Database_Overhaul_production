@@ -18,7 +18,7 @@ public partial class Studentdetail
     public string DetailId { get; set; }
 
     [Column("gradYear", TypeName = "year")]
-    public short? GradYear { get; set; }
+    public short GradYear { get; set; }
 
     [Column("serveExpMon")]
     [Precision(5, 2)]
@@ -29,70 +29,74 @@ public partial class Studentdetail
     public decimal? LeadExpMon { get; set; }
 
     [Column("usCitizen")]
-    public bool? UsCitizen { get; set; }
+    public bool UsCitizen { get; set; }
 
     [Column("tranStu")]
-    public bool? TranStu { get; set; }
+    public bool TranStu { get; set; }
 
     [Column("lowIncome")]
-    public bool? LowIncome { get; set; }
+    public bool LowIncome { get; set; }
 
     [Column("pbk")]
-    public bool? Pbk { get; set; }
+    public bool Pbk { get; set; }
 
     [Column("chc")]
-    public bool? Chc { get; set; }
+    public bool Chc { get; set; }
 
     [Column("urop")]
-    public bool? Urop { get; set; }
+    public bool Urop { get; set; }
 
     [Column("ushp")]
-    public bool? Ushp { get; set; }
+    public bool Ushp { get; set; }
 
     [Column("honorProg")]
-    public bool? HonorProg { get; set; }
+    public bool HonorProg { get; set; }
 
     [Column("sage")]
-    public bool? Sage { get; set; }
+    public bool Sage { get; set; }
+
+    [Column("honorProgPrev")]
+    public bool HonorProgPrev { get; set; }
 
     [Column("paa")]
-    public bool? Paa { get; set; }
+    public bool Paa { get; set; }
 
     [Column("larc")]
-    public bool? Larc { get; set; }
+    public bool Larc { get; set; }
 
     [Column("asuci")]
-    public bool? Asuci { get; set; }
+    public bool Asuci { get; set; }
 
     [Column("veteran")]
-    public bool? Veteran { get; set; }
+    public bool Veteran { get; set; }
 
+    [Required]
     [Column("highDegree")]
     [StringLength(45)]
     public string HighDegree { get; set; }
 
-    [Column("consentFormE11")]
-    [StringLength(255)]
+    [Required]
+    [Column("consentFormE11", TypeName = "mediumtext")]
     public string ConsentFormE11 { get; set; }
 
-    [Column("consentFormT10")]
-    [StringLength(255)]
+    [Required]
+    [Column("consentFormT10", TypeName = "mediumtext")]
     public string ConsentFormT10 { get; set; }
 
-    [Column("transcriptE11")]
-    [StringLength(255)]
+    [Required]
+    [Column("transcriptE11", TypeName = "mediumtext")]
     public string TranscriptE11 { get; set; }
 
-    [Column("transcriptT10")]
-    [StringLength(255)]
+    [Required]
+    [Column("transcriptT10", TypeName = "mediumtext")]
     public string TranscriptT10 { get; set; }
 
-    [Column("cvE11")]
-    [StringLength(100)]
+    [Required]
+    [Column("cvE11", TypeName = "mediumtext")]
     public string CvE11 { get; set; }
 
-    [Column("cvT10")]
-    [StringLength(100)]
+    [Required]
+    [Column("cvT10", TypeName = "mediumtext")]
     public string CvT10 { get; set; }
 
     [Key]

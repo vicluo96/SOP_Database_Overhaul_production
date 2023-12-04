@@ -9,7 +9,6 @@ namespace Domain;
 [PrimaryKey("RecomId", "StudentbasicStudentId")]
 [Table("recommenders")]
 [Index("StudentbasicStudentId", Name = "fk_recommenders_studentbasic1")]
-[Index("RecomId", Name = "recomID_UNIQUE", IsUnique = true)]
 public partial class Recommender
 {
     [Key]
@@ -17,13 +16,10 @@ public partial class Recommender
     [StringLength(36)]
     public string RecomId { get; set; }
 
+    [Required]
     [Column("recommender")]
     [StringLength(100)]
     public string Recommender1 { get; set; }
-
-    [Column("cycle")]
-    [StringLength(3)]
-    public string Cycle { get; set; }
 
     [Key]
     [Column("studentbasic_studentID")]

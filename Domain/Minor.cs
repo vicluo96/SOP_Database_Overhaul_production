@@ -9,7 +9,6 @@ namespace Domain;
 [PrimaryKey("MinorId", "StudentbasicStudentId")]
 [Table("minors")]
 [Index("StudentbasicStudentId", Name = "fk_minors_studentbasic1")]
-[Index("MinorId", Name = "majorID_UNIQUE", IsUnique = true)]
 public partial class Minor
 {
     [Key]
@@ -17,7 +16,6 @@ public partial class Minor
     [StringLength(36)]
     public string MinorId { get; set; }
 
-    [Required]
     [Column("minorName")]
     [StringLength(100)]
     public string MinorName { get; set; }

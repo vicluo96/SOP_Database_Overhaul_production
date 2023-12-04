@@ -8,7 +8,6 @@ namespace Domain;
 
 [PrimaryKey("CollegeId", "StudentbasicStudentId")]
 [Table("colleges")]
-[Index("CollegeId", Name = "e11ID_UNIQUE", IsUnique = true)]
 [Index("StudentbasicStudentId", Name = "fk_colleges_studentbasic1")]
 public partial class College
 {

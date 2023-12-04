@@ -34,6 +34,16 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(36)")
                         .HasColumnName("studentbasic_studentID");
 
+                    b.Property<string>("AdviserName")
+                        .HasMaxLength(45)
+                        .HasColumnType("varchar(45)")
+                        .HasColumnName("adviserName");
+
+                    b.Property<string>("Cewcname")
+                        .HasMaxLength(45)
+                        .HasColumnType("varchar(45)")
+                        .HasColumnName("CEWCName");
+
                     b.Property<string>("OrienE11")
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)")
@@ -44,8 +54,8 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(10)")
                         .HasColumnName("orienT10");
 
-                    b.Property<int?>("PaAppNo")
-                        .HasColumnType("int")
+                    b.Property<byte?>("PaAppNo")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("paAppNo");
 
                     b.Property<string>("PrepStatus")
@@ -90,9 +100,6 @@ namespace Persistence.Migrations
                     b.HasKey("CollegeId", "StudentbasicStudentId")
                         .HasName("PRIMARY")
                         .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-
-                    b.HasIndex(new[] { "CollegeId" }, "e11ID_UNIQUE")
-                        .IsUnique();
 
                     b.HasIndex(new[] { "StudentbasicStudentId" }, "fk_colleges_studentbasic1");
 
@@ -142,7 +149,6 @@ namespace Persistence.Migrations
                         .HasColumnName("studentbasic_studentID");
 
                     b.Property<string>("MinorName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("minorName");
@@ -152,10 +158,6 @@ namespace Persistence.Migrations
                         .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
                     b.HasIndex(new[] { "StudentbasicStudentId" }, "fk_minors_studentbasic1");
-
-                    b.HasIndex(new[] { "MinorId" }, "majorID_UNIQUE")
-                        .IsUnique()
-                        .HasDatabaseName("majorID_UNIQUE1");
 
                     b.ToTable("minors");
                 });
@@ -222,12 +224,8 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(36)")
                         .HasColumnName("studentbasic_studentID");
 
-                    b.Property<string>("Cycle")
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)")
-                        .HasColumnName("cycle");
-
                     b.Property<string>("Recommender1")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("recommender");
@@ -237,9 +235,6 @@ namespace Persistence.Migrations
                         .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
                     b.HasIndex(new[] { "StudentbasicStudentId" }, "fk_recommenders_studentbasic1");
-
-                    b.HasIndex(new[] { "RecomId" }, "recomID_UNIQUE")
-                        .IsUnique();
 
                     b.ToTable("recommenders");
                 });
@@ -298,8 +293,7 @@ namespace Persistence.Migrations
                         .HasName("PRIMARY");
 
                     b.HasIndex(new[] { "ScholId" }, "e11ID_UNIQUE")
-                        .IsUnique()
-                        .HasDatabaseName("e11ID_UNIQUE1");
+                        .IsUnique();
 
                     b.ToTable("scholarships");
                 });
@@ -316,16 +310,19 @@ namespace Persistence.Migrations
                         .HasColumnName("age");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("email");
 
                     b.Property<string>("LegalFirstName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("legalFirstName");
 
                     b.Property<string>("LegalLastName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("legalLastName");
@@ -336,8 +333,9 @@ namespace Persistence.Migrations
                         .HasColumnName("personalEmail");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(14)
-                        .HasColumnType("varchar(14)")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("varchar(21)")
                         .HasColumnName("phoneNumber");
 
                     b.Property<string>("PreferredFirstName")
@@ -349,6 +347,10 @@ namespace Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)")
                         .HasColumnName("pronouns");
+
+                    b.Property<DateTime>("SubmitTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("submitTime");
 
                     b.Property<decimal?>("UciGpa")
                         .HasPrecision(3, 2)
@@ -376,48 +378,53 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(36)")
                         .HasColumnName("studentbasic_studentID");
 
-                    b.Property<bool?>("Asuci")
+                    b.Property<bool>("Asuci")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("asuci");
 
-                    b.Property<bool?>("Chc")
+                    b.Property<bool>("Chc")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("chc");
 
                     b.Property<string>("ConsentFormE11")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .IsRequired()
+                        .HasColumnType("mediumtext")
                         .HasColumnName("consentFormE11");
 
                     b.Property<string>("ConsentFormT10")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .IsRequired()
+                        .HasColumnType("mediumtext")
                         .HasColumnName("consentFormT10");
 
                     b.Property<string>("CvE11")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .IsRequired()
+                        .HasColumnType("mediumtext")
                         .HasColumnName("cvE11");
 
                     b.Property<string>("CvT10")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .IsRequired()
+                        .HasColumnType("mediumtext")
                         .HasColumnName("cvT10");
 
-                    b.Property<short?>("GradYear")
+                    b.Property<short>("GradYear")
                         .HasColumnType("year")
                         .HasColumnName("gradYear");
 
                     b.Property<string>("HighDegree")
+                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("varchar(45)")
                         .HasColumnName("highDegree");
 
-                    b.Property<bool?>("HonorProg")
+                    b.Property<bool>("HonorProg")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("honorProg");
 
-                    b.Property<bool?>("Larc")
+                    b.Property<bool>("HonorProgPrev")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("honorProgPrev");
+
+                    b.Property<bool>("Larc")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("larc");
 
@@ -426,19 +433,19 @@ namespace Persistence.Migrations
                         .HasColumnType("decimal(5,2)")
                         .HasColumnName("leadExpMon");
 
-                    b.Property<bool?>("LowIncome")
+                    b.Property<bool>("LowIncome")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("lowIncome");
 
-                    b.Property<bool?>("Paa")
+                    b.Property<bool>("Paa")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("paa");
 
-                    b.Property<bool?>("Pbk")
+                    b.Property<bool>("Pbk")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("pbk");
 
-                    b.Property<bool?>("Sage")
+                    b.Property<bool>("Sage")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("sage");
 
@@ -447,33 +454,33 @@ namespace Persistence.Migrations
                         .HasColumnType("decimal(5,2)")
                         .HasColumnName("serveExpMon");
 
-                    b.Property<bool?>("TranStu")
+                    b.Property<bool>("TranStu")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("tranStu");
 
                     b.Property<string>("TranscriptE11")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .IsRequired()
+                        .HasColumnType("mediumtext")
                         .HasColumnName("transcriptE11");
 
                     b.Property<string>("TranscriptT10")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .IsRequired()
+                        .HasColumnType("mediumtext")
                         .HasColumnName("transcriptT10");
 
-                    b.Property<bool?>("Urop")
+                    b.Property<bool>("Urop")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("urop");
 
-                    b.Property<bool?>("UsCitizen")
+                    b.Property<bool>("UsCitizen")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("usCitizen");
 
-                    b.Property<bool?>("Ushp")
+                    b.Property<bool>("Ushp")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("ushp");
 
-                    b.Property<bool?>("Veteran")
+                    b.Property<bool>("Veteran")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("veteran");
 

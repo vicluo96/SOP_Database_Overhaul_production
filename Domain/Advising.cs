@@ -29,8 +29,16 @@ public partial class Advising
     [StringLength(10)]
     public string OrienE11 { get; set; }
 
+    [Column("adviserName")]
+    [StringLength(45)]
+    public string AdviserName { get; set; }
+
+    [Column("CEWCName")]
+    [StringLength(45)]
+    public string Cewcname { get; set; }
+
     [Column("paAppNo")]
-    public int? PaAppNo { get; set; }
+    public byte? PaAppNo { get; set; }
 
     [Key]
     [Column("studentbasic_studentID")]

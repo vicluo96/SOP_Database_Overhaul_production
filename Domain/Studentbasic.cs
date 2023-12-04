@@ -15,10 +15,12 @@ public partial class Studentbasic
     [StringLength(36)]
     public string StudentId { get; set; }
 
+    [Required]
     [Column("legalFirstName")]
     [StringLength(100)]
     public string LegalFirstName { get; set; }
 
+    [Required]
     [Column("legalLastName")]
     [StringLength(100)]
     public string LegalLastName { get; set; }
@@ -31,6 +33,7 @@ public partial class Studentbasic
     [StringLength(50)]
     public string Pronouns { get; set; }
 
+    [Required]
     [Column("email")]
     [StringLength(100)]
     public string Email { get; set; }
@@ -39,8 +42,9 @@ public partial class Studentbasic
     [StringLength(100)]
     public string PersonalEmail { get; set; }
 
+    [Required]
     [Column("phoneNumber")]
-    [StringLength(14)]
+    [StringLength(21)]
     public string PhoneNumber { get; set; }
 
     [Column("uciGPA")]
@@ -49,6 +53,9 @@ public partial class Studentbasic
 
     [Column("age")]
     public byte? Age { get; set; }
+
+    [Column("submitTime", TypeName = "datetime")]
+    public DateTime SubmitTime { get; set; }
 
     [InverseProperty("StudentbasicStudent")]
     public virtual ICollection<Advising> Advisings { get; set; } = new List<Advising>();
