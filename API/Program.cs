@@ -6,6 +6,14 @@ using Application.Scholarships;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(opt => {
+    opt.AddPolicy("CorsPolicy", policy => 
+    {
+        //policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("htttp://localhost:5173");
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -32,6 +40,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("CorsPolicy");
 
 //Garbage collector
 using var scope = app.Services.CreateScope();
