@@ -1,7 +1,7 @@
 using Persistence;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
-using Application.Scholarships;
+using Application.E11;
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -2,7 +2,7 @@
 using MediatR;
 using Persistence;
 
-namespace Application.Scholarships;
+namespace Application.E11;
 
 public class Create
 {

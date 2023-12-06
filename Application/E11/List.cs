@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Scholarships;
+namespace Application.E11;
 
 public class List
 {
