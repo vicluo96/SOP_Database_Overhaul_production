@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231205011541_sixth")]
-    partial class sixth
+    [Migration("20231206013459_schl")]
+    partial class schl
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,7 +227,7 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(36)")
                         .HasColumnName("studentbasic_studentID");
 
-                    b.Property<string>("Recommender1")
+                    b.Property<string>("RecommenderName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")

@@ -224,7 +224,7 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(36)")
                         .HasColumnName("studentbasic_studentID");
 
-                    b.Property<string>("Recommender1")
+                    b.Property<string>("RecommenderName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
