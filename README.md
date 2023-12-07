@@ -1,6 +1,5 @@
 # SOP-Database-Overhaul
-This is a .NET Web API app in C# that revolutionizes how UCI students apply for scholarships and how staff manage these applications. This empowers scholarship management staff with the ability to modify records easily and independently.
-The frontend was developed with React and node.js supported by an MVC controller. The SQL schema is designed according to BCNF, ENGINE = InnoDB, DEFAULT CHARACTER SET = utf8mb4.
+The front end was developed using Node.js and React, supported by an MVC controller, while the back end showcases a .NET Web API application, meticulously crafted in C# and rooted in the principles of clean architecture. It is accompanied by a scalable SQL schema, ingeniously designed to facilitate the future updating of scholarships and dynamic questions.
 
 ## In SOP-Database-Overhaul
 
