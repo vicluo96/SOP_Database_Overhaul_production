@@ -370,18 +370,6 @@ namespace Persistence.Migrations
                     asuci = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     veteran = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     highDegree = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    consentFormE11 = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    consentFormT10 = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    transcriptE11 = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    transcriptT10 = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    cvE11 = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    cvT10 = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -393,6 +381,36 @@ namespace Persistence.Migrations
                         column: x => x.studentbasic_studentID,
                         principalTable: "studentbasic",
                         principalColumn: "studentID");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_0900_ai_ci");
+
+            migrationBuilder.CreateTable(
+                name: "documents",
+                columns: table => new
+                {
+                    documentID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    advising_prepID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    advising_studentbasic_studentID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    consentForm = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    transcript = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    cv = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => new { x.documentID, x.advising_prepID, x.advising_studentbasic_studentID })
+                        .Annotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+                    table.ForeignKey(
+                        name: "fk_documents_advising1",
+                        columns: x => new { x.advising_prepID, x.advising_studentbasic_studentID },
+                        principalTable: "advising",
+                        principalColumns: new[] { "prepID", "studentbasic_studentID" });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4")
                 .Annotation("Relational:Collation", "utf8mb4_0900_ai_ci");
@@ -412,6 +430,17 @@ namespace Persistence.Migrations
                 name: "fk_colleges_studentbasic1",
                 table: "colleges",
                 column: "studentbasic_studentID");
+
+            migrationBuilder.CreateIndex(
+                name: "documentID_UNIQUE",
+                table: "documents",
+                column: "documentID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "fk_documents_advising1",
+                table: "documents",
+                columns: new[] { "advising_prepID", "advising_studentbasic_studentID" });
 
             migrationBuilder.CreateIndex(
                 name: "fk_majors_studentbasic1",
@@ -494,10 +523,10 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "advising");
+                name: "colleges");
 
             migrationBuilder.DropTable(
-                name: "colleges");
+                name: "documents");
 
             migrationBuilder.DropTable(
                 name: "majors");
@@ -528,6 +557,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "studentdetail");
+
+            migrationBuilder.DropTable(
+                name: "advising");
 
             migrationBuilder.DropTable(
                 name: "questions");

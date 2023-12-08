@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231206013459_schl")]
+    [Migration("20231208044228_schl")]
     partial class schl
     {
         /// <inheritdoc />
@@ -107,6 +107,50 @@ namespace Persistence.Migrations
                     b.HasIndex(new[] { "StudentbasicStudentId" }, "fk_colleges_studentbasic1");
 
                     b.ToTable("colleges");
+                });
+
+            modelBuilder.Entity("Domain.Document", b =>
+                {
+                    b.Property<string>("DocumentId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)")
+                        .HasColumnName("documentID");
+
+                    b.Property<string>("AdvisingPrepId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)")
+                        .HasColumnName("advising_prepID");
+
+                    b.Property<string>("AdvisingStudentbasicStudentId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)")
+                        .HasColumnName("advising_studentbasic_studentID");
+
+                    b.Property<string>("ConsentForm")
+                        .IsRequired()
+                        .HasColumnType("mediumtext")
+                        .HasColumnName("consentForm");
+
+                    b.Property<string>("Cv")
+                        .IsRequired()
+                        .HasColumnType("mediumtext")
+                        .HasColumnName("cv");
+
+                    b.Property<string>("Transcript")
+                        .IsRequired()
+                        .HasColumnType("mediumtext")
+                        .HasColumnName("transcript");
+
+                    b.HasKey("DocumentId", "AdvisingPrepId", "AdvisingStudentbasicStudentId")
+                        .HasName("PRIMARY")
+                        .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+
+                    b.HasIndex(new[] { "DocumentId" }, "documentID_UNIQUE")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "AdvisingPrepId", "AdvisingStudentbasicStudentId" }, "fk_documents_advising1");
+
+                    b.ToTable("documents");
                 });
 
             modelBuilder.Entity("Domain.Major", b =>
@@ -389,26 +433,6 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("chc");
 
-                    b.Property<string>("ConsentFormE11")
-                        .IsRequired()
-                        .HasColumnType("mediumtext")
-                        .HasColumnName("consentFormE11");
-
-                    b.Property<string>("ConsentFormT10")
-                        .IsRequired()
-                        .HasColumnType("mediumtext")
-                        .HasColumnName("consentFormT10");
-
-                    b.Property<string>("CvE11")
-                        .IsRequired()
-                        .HasColumnType("mediumtext")
-                        .HasColumnName("cvE11");
-
-                    b.Property<string>("CvT10")
-                        .IsRequired()
-                        .HasColumnType("mediumtext")
-                        .HasColumnName("cvT10");
-
                     b.Property<short>("GradYear")
                         .HasColumnType("year")
                         .HasColumnName("gradYear");
@@ -460,16 +484,6 @@ namespace Persistence.Migrations
                     b.Property<bool>("TranStu")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("tranStu");
-
-                    b.Property<string>("TranscriptE11")
-                        .IsRequired()
-                        .HasColumnType("mediumtext")
-                        .HasColumnName("transcriptE11");
-
-                    b.Property<string>("TranscriptT10")
-                        .IsRequired()
-                        .HasColumnType("mediumtext")
-                        .HasColumnName("transcriptT10");
 
                     b.Property<bool>("Urop")
                         .HasColumnType("tinyint(1)")
@@ -586,6 +600,17 @@ namespace Persistence.Migrations
                     b.Navigation("StudentbasicStudent");
                 });
 
+            modelBuilder.Entity("Domain.Document", b =>
+                {
+                    b.HasOne("Domain.Advising", "Advising")
+                        .WithMany("Documents")
+                        .HasForeignKey("AdvisingPrepId", "AdvisingStudentbasicStudentId")
+                        .IsRequired()
+                        .HasConstraintName("fk_documents_advising1");
+
+                    b.Navigation("Advising");
+                });
+
             modelBuilder.Entity("Domain.Major", b =>
                 {
                     b.HasOne("Domain.Studentbasic", "StudentbasicStudent")
@@ -688,6 +713,11 @@ namespace Persistence.Migrations
                         .HasForeignKey("StudentbasicStudentId")
                         .IsRequired()
                         .HasConstraintName("fk_e11_has_studentbasic_studentbasic1");
+                });
+
+            modelBuilder.Entity("Domain.Advising", b =>
+                {
+                    b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("Domain.Question", b =>
