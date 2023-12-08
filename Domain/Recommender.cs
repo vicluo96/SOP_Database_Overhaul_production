@@ -19,7 +19,7 @@ public partial class Recommender
     [Required]
     [Column("recommender")]
     [StringLength(100)]
-    public string RecommenderName { get; set; }
+    public string Recommender1 { get; set; }
 
     [Key]
     [Column("studentbasic_studentID")]

@@ -45,6 +45,9 @@ public partial class Advising
     [StringLength(36)]
     public string StudentbasicStudentId { get; set; }
 
+    [InverseProperty("Advising")]
+    public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
+
     [ForeignKey("StudentbasicStudentId")]
     [InverseProperty("Advisings")]
     public virtual Studentbasic StudentbasicStudent { get; set; }

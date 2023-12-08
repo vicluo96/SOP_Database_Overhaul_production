@@ -75,30 +75,6 @@ public partial class Studentdetail
     [StringLength(45)]
     public string HighDegree { get; set; }
 
-    [Required]
-    [Column("consentFormE11", TypeName = "mediumtext")]
-    public string ConsentFormE11 { get; set; }
-
-    [Required]
-    [Column("consentFormT10", TypeName = "mediumtext")]
-    public string ConsentFormT10 { get; set; }
-
-    [Required]
-    [Column("transcriptE11", TypeName = "mediumtext")]
-    public string TranscriptE11 { get; set; }
-
-    [Required]
-    [Column("transcriptT10", TypeName = "mediumtext")]
-    public string TranscriptT10 { get; set; }
-
-    [Required]
-    [Column("cvE11", TypeName = "mediumtext")]
-    public string CvE11 { get; set; }
-
-    [Required]
-    [Column("cvT10", TypeName = "mediumtext")]
-    public string CvT10 { get; set; }
-
     [Key]
     [Column("studentbasic_studentID")]
     [StringLength(36)]

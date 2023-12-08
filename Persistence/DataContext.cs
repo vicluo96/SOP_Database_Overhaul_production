@@ -20,6 +20,8 @@ public partial class DataContext : DbContext
 
     public virtual DbSet<College> Colleges { get; set; }
 
+    public virtual DbSet<Document> Documents { get; set; }
+
     public virtual DbSet<Major> Majors { get; set; }
 
     public virtual DbSet<Minor> Minors { get; set; }
@@ -75,6 +77,17 @@ public partial class DataContext : DbContext
             entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Colleges)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_colleges_studentbasic1");
+        });
+
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.HasKey(e => new { e.DocumentId, e.AdvisingPrepId, e.AdvisingStudentbasicStudentId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+
+            entity.HasOne(d => d.Advising).WithMany(p => p.Documents)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_documents_advising1");
         });
 
         modelBuilder.Entity<Major>(entity =>
@@ -213,4 +226,3 @@ public partial class DataContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
-
