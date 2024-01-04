@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class schl : Migration
+    public partial class Schl : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -135,24 +135,24 @@ namespace Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_0900_ai_ci");
 
             migrationBuilder.CreateTable(
-                name: "advising",
+                name: "advisings",
                 columns: table => new
                 {
                     prepID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     studentbasic_studentID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    prepStatus = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true, collation: "utf8mb4_0900_ai_ci")
+                    prepStatus = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: true, collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    orienT10 = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    orienE11 = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true, collation: "utf8mb4_0900_ai_ci")
+                    orientStatus = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: true, collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     adviserName = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: true, collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CEWCName = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: true, collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    paAppNo = table.Column<byte>(type: "tinyint unsigned", nullable: true)
+                    paAppNo = table.Column<byte>(type: "tinyint unsigned", nullable: true),
+                    consentForm = table.Column<string>(type: "mediumtext", nullable: true, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -185,6 +185,32 @@ namespace Persistence.Migrations
                         .Annotation("MySql:IndexPrefixLength", new[] { 0, 0 });
                     table.ForeignKey(
                         name: "fk_colleges_studentbasic1",
+                        column: x => x.studentbasic_studentID,
+                        principalTable: "studentbasic",
+                        principalColumn: "studentID");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_0900_ai_ci");
+
+            migrationBuilder.CreateTable(
+                name: "documents",
+                columns: table => new
+                {
+                    documentID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    studentbasic_studentID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    transcript = table.Column<string>(type: "mediumtext", nullable: true, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    cv = table.Column<string>(type: "mediumtext", nullable: true, collation: "utf8mb4_0900_ai_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => new { x.documentID, x.studentbasic_studentID })
+                        .Annotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                    table.ForeignKey(
+                        name: "fk_documents_studentbasic1",
                         column: x => x.studentbasic_studentID,
                         principalTable: "studentbasic",
                         principalColumn: "studentID");
@@ -385,44 +411,14 @@ namespace Persistence.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4")
                 .Annotation("Relational:Collation", "utf8mb4_0900_ai_ci");
 
-            migrationBuilder.CreateTable(
-                name: "documents",
-                columns: table => new
-                {
-                    documentID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    advising_prepID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    advising_studentbasic_studentID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    consentForm = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    transcript = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    cv = table.Column<string>(type: "mediumtext", nullable: false, collation: "utf8mb4_0900_ai_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PRIMARY", x => new { x.documentID, x.advising_prepID, x.advising_studentbasic_studentID })
-                        .Annotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
-                    table.ForeignKey(
-                        name: "fk_documents_advising1",
-                        columns: x => new { x.advising_prepID, x.advising_studentbasic_studentID },
-                        principalTable: "advising",
-                        principalColumns: new[] { "prepID", "studentbasic_studentID" });
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_0900_ai_ci");
-
             migrationBuilder.CreateIndex(
                 name: "fk_advising_studentbasic1",
-                table: "advising",
+                table: "advisings",
                 column: "studentbasic_studentID");
 
             migrationBuilder.CreateIndex(
                 name: "prepID_UNIQUE",
-                table: "advising",
+                table: "advisings",
                 column: "prepID",
                 unique: true);
 
@@ -432,15 +428,9 @@ namespace Persistence.Migrations
                 column: "studentbasic_studentID");
 
             migrationBuilder.CreateIndex(
-                name: "documentID_UNIQUE",
+                name: "fk_documents_studentbasic1",
                 table: "documents",
-                column: "documentID",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "fk_documents_advising1",
-                table: "documents",
-                columns: new[] { "advising_prepID", "advising_studentbasic_studentID" });
+                column: "studentbasic_studentID");
 
             migrationBuilder.CreateIndex(
                 name: "fk_majors_studentbasic1",
@@ -523,6 +513,9 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "advisings");
+
+            migrationBuilder.DropTable(
                 name: "colleges");
 
             migrationBuilder.DropTable(
@@ -557,9 +550,6 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "studentdetail");
-
-            migrationBuilder.DropTable(
-                name: "advising");
 
             migrationBuilder.DropTable(
                 name: "questions");

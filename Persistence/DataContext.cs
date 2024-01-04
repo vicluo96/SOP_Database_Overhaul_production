@@ -81,13 +81,13 @@ public partial class DataContext : DbContext
 
         modelBuilder.Entity<Document>(entity =>
         {
-            entity.HasKey(e => new { e.DocumentId, e.AdvisingPrepId, e.AdvisingStudentbasicStudentId })
+            entity.HasKey(e => new { e.DocumentId, e.StudentbasicStudentId })
                 .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-            entity.HasOne(d => d.Advising).WithMany(p => p.Documents)
+            entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Documents)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_documents_advising1");
+                .HasConstraintName("fk_documents_studentbasic1");
         });
 
         modelBuilder.Entity<Major>(entity =>

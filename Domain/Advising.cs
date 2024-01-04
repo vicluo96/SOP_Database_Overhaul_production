@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Domain;
 
 [PrimaryKey("PrepId", "StudentbasicStudentId")]
-[Table("advising")]
+[Table("advisings")]
 [Index("StudentbasicStudentId", Name = "fk_advising_studentbasic1")]
 [Index("PrepId", Name = "prepID_UNIQUE", IsUnique = true)]
 public partial class Advising
@@ -18,16 +18,12 @@ public partial class Advising
     public string PrepId { get; set; }
 
     [Column("prepStatus")]
-    [StringLength(10)]
+    [StringLength(45)]
     public string PrepStatus { get; set; }
 
-    [Column("orienT10")]
-    [StringLength(10)]
-    public string OrienT10 { get; set; }
-
-    [Column("orienE11")]
-    [StringLength(10)]
-    public string OrienE11 { get; set; }
+    [Column("orientStatus")]
+    [StringLength(45)]
+    public string OrientStatus { get; set; }
 
     [Column("adviserName")]
     [StringLength(45)]
@@ -45,8 +41,8 @@ public partial class Advising
     [StringLength(36)]
     public string StudentbasicStudentId { get; set; }
 
-    [InverseProperty("Advising")]
-    public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
+    [Column("consentForm", TypeName = "mediumtext")]
+    public string ConsentForm { get; set; }
 
     [ForeignKey("StudentbasicStudentId")]
     [InverseProperty("Advisings")]

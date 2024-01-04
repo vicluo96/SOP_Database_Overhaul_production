@@ -64,6 +64,9 @@ public partial class Studentbasic
     public virtual ICollection<College> Colleges { get; set; } = new List<College>();
 
     [InverseProperty("StudentbasicStudent")]
+    public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
+
+    [InverseProperty("StudentbasicStudent")]
     public virtual ICollection<Major> Majors { get; set; } = new List<Major>();
 
     [InverseProperty("StudentbasicStudent")]

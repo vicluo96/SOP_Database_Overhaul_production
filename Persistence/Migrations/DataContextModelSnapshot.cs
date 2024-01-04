@@ -44,23 +44,22 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(45)")
                         .HasColumnName("CEWCName");
 
-                    b.Property<string>("OrienE11")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)")
-                        .HasColumnName("orienE11");
+                    b.Property<string>("ConsentForm")
+                        .HasColumnType("mediumtext")
+                        .HasColumnName("consentForm");
 
-                    b.Property<string>("OrienT10")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)")
-                        .HasColumnName("orienT10");
+                    b.Property<string>("OrientStatus")
+                        .HasMaxLength(45)
+                        .HasColumnType("varchar(45)")
+                        .HasColumnName("orientStatus");
 
                     b.Property<byte?>("PaAppNo")
                         .HasColumnType("tinyint unsigned")
                         .HasColumnName("paAppNo");
 
                     b.Property<string>("PrepStatus")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)")
+                        .HasMaxLength(45)
+                        .HasColumnType("varchar(45)")
                         .HasColumnName("prepStatus");
 
                     b.HasKey("PrepId", "StudentbasicStudentId")
@@ -72,7 +71,7 @@ namespace Persistence.Migrations
                     b.HasIndex(new[] { "PrepId" }, "prepID_UNIQUE")
                         .IsUnique();
 
-                    b.ToTable("advising");
+                    b.ToTable("advisings");
                 });
 
             modelBuilder.Entity("Domain.College", b =>
@@ -113,39 +112,24 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(36)")
                         .HasColumnName("documentID");
 
-                    b.Property<string>("AdvisingPrepId")
+                    b.Property<string>("StudentbasicStudentId")
                         .HasMaxLength(36)
                         .HasColumnType("varchar(36)")
-                        .HasColumnName("advising_prepID");
-
-                    b.Property<string>("AdvisingStudentbasicStudentId")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)")
-                        .HasColumnName("advising_studentbasic_studentID");
-
-                    b.Property<string>("ConsentForm")
-                        .IsRequired()
-                        .HasColumnType("mediumtext")
-                        .HasColumnName("consentForm");
+                        .HasColumnName("studentbasic_studentID");
 
                     b.Property<string>("Cv")
-                        .IsRequired()
                         .HasColumnType("mediumtext")
                         .HasColumnName("cv");
 
                     b.Property<string>("Transcript")
-                        .IsRequired()
                         .HasColumnType("mediumtext")
                         .HasColumnName("transcript");
 
-                    b.HasKey("DocumentId", "AdvisingPrepId", "AdvisingStudentbasicStudentId")
+                    b.HasKey("DocumentId", "StudentbasicStudentId")
                         .HasName("PRIMARY")
-                        .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+                        .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-                    b.HasIndex(new[] { "DocumentId" }, "documentID_UNIQUE")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "AdvisingPrepId", "AdvisingStudentbasicStudentId" }, "fk_documents_advising1");
+                    b.HasIndex(new[] { "StudentbasicStudentId" }, "fk_documents_studentbasic1");
 
                     b.ToTable("documents");
                 });
@@ -268,7 +252,7 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(36)")
                         .HasColumnName("studentbasic_studentID");
 
-                    b.Property<string>("RecommenderName")
+                    b.Property<string>("Recommendername")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
@@ -599,13 +583,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Document", b =>
                 {
-                    b.HasOne("Domain.Advising", "Advising")
+                    b.HasOne("Domain.Studentbasic", "StudentbasicStudent")
                         .WithMany("Documents")
-                        .HasForeignKey("AdvisingPrepId", "AdvisingStudentbasicStudentId")
+                        .HasForeignKey("StudentbasicStudentId")
                         .IsRequired()
-                        .HasConstraintName("fk_documents_advising1");
+                        .HasConstraintName("fk_documents_studentbasic1");
 
-                    b.Navigation("Advising");
+                    b.Navigation("StudentbasicStudent");
                 });
 
             modelBuilder.Entity("Domain.Major", b =>
@@ -712,11 +696,6 @@ namespace Persistence.Migrations
                         .HasConstraintName("fk_e11_has_studentbasic_studentbasic1");
                 });
 
-            modelBuilder.Entity("Domain.Advising", b =>
-                {
-                    b.Navigation("Documents");
-                });
-
             modelBuilder.Entity("Domain.Question", b =>
                 {
                     b.Navigation("QuestionResponses");
@@ -727,6 +706,8 @@ namespace Persistence.Migrations
                     b.Navigation("Advisings");
 
                     b.Navigation("Colleges");
+
+                    b.Navigation("Documents");
 
                     b.Navigation("Majors");
 
