@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Domain;
 
 [PrimaryKey("PrepId", "StudentbasicStudentId")]
-[Table("advising")]
+[Table("advisings")]
 [Index("StudentbasicStudentId", Name = "fk_advising_studentbasic1")]
 [Index("PrepId", Name = "prepID_UNIQUE", IsUnique = true)]
 public partial class Advising
@@ -17,28 +17,32 @@ public partial class Advising
     [StringLength(36)]
     public string PrepId { get; set; }
 
-    [Required]
     [Column("prepStatus")]
-    [StringLength(10)]
+    [StringLength(45)]
     public string PrepStatus { get; set; }
 
-    [Required]
-    [Column("orienT10")]
-    [StringLength(10)]
-    public string OrienT10 { get; set; }
+    [Column("orientStatus")]
+    [StringLength(45)]
+    public string OrientStatus { get; set; }
 
-    [Required]
-    [Column("orienE11")]
-    [StringLength(10)]
-    public string OrienE11 { get; set; }
+    [Column("adviserName")]
+    [StringLength(45)]
+    public string AdviserName { get; set; }
+
+    [Column("CEWCName")]
+    [StringLength(45)]
+    public string Cewcname { get; set; }
 
     [Column("paAppNo")]
-    public int? PaAppNo { get; set; }
+    public byte? PaAppNo { get; set; }
 
     [Key]
     [Column("studentbasic_studentID")]
     [StringLength(36)]
     public string StudentbasicStudentId { get; set; }
+
+    [Column("consentForm", TypeName = "mediumtext")]
+    public string ConsentForm { get; set; }
 
     [ForeignKey("StudentbasicStudentId")]
     [InverseProperty("Advisings")]

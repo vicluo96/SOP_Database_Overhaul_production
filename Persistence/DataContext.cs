@@ -9,9 +9,6 @@ namespace Persistence;
 public partial class DataContext : DbContext
 {
     private readonly IConfiguration? _configuration;
-    public DataContext ()
-    {
-    }
 
     public DataContext (DbContextOptions<DataContext> options, IConfiguration configuration)
         : base(options)
@@ -21,36 +18,34 @@ public partial class DataContext : DbContext
 
     public virtual DbSet<Advising> Advisings { get; set; }
 
-    // public virtual DbSet<College> Colleges { get; set; }
+    public virtual DbSet<College> Colleges { get; set; }
 
-    // public virtual DbSet<DynamicQuestion> DynamicQuestions { get; set; }
+    public virtual DbSet<Document> Documents { get; set; }
 
-    // public virtual DbSet<E11> E11s { get; set; }
+    public virtual DbSet<Major> Majors { get; set; }
 
-    // public virtual DbSet<Major> Majors { get; set; }
+    public virtual DbSet<Minor> Minors { get; set; }
 
-    // public virtual DbSet<Minor> Minors { get; set; }
+    public virtual DbSet<Question> Questions { get; set; }
 
-    // public virtual DbSet<QuestionResponse> QuestionResponses { get; set; }
+    public virtual DbSet<QuestionResponse> QuestionResponses { get; set; }
 
-    // public virtual DbSet<Recommender> Recommenders { get; set; }
+    public virtual DbSet<Recommender> Recommenders { get; set; }
 
-    // public virtual DbSet<Result> Results { get; set; }
+    public virtual DbSet<Result> Results { get; set; }
+
+    public virtual DbSet<Scholarship> Scholarships { get; set; }
 
     public virtual DbSet<Studentbasic> Studentbasics { get; set; }
 
     public virtual DbSet<Studentdetail> Studentdetails { get; set; }
 
-    // public virtual DbSet<T10> T10s { get; set; }
 
-//     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//         => optionsBuilder.UseMySql("server=localhost;user=root;database=;password=;port=3306", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.31-mysql"));
 
     // hide the password
    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
+        if (!optionsBuilder.IsConfigured && _configuration != null)
         {
             optionsBuilder.UseMySql(_configuration.GetConnectionString("Schl"), 
                                     ServerVersion.AutoDetect(_configuration.GetConnectionString("Schl")));
@@ -73,129 +68,146 @@ public partial class DataContext : DbContext
                 .HasConstraintName("fk_advising_studentbasic1");
         });
 
-        // modelBuilder.Entity<College>(entity =>
-        // {
-        //     entity.HasKey(e => e.CollegeId).HasName("PRIMARY");
+        modelBuilder.Entity<College>(entity =>
+        {
+            entity.HasKey(e => new { e.CollegeId, e.StudentbasicStudentId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-        //     entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Colleges)
-        //         .OnDelete(DeleteBehavior.ClientSetNull)
-        //         .HasConstraintName("fk_colleges_studentbasic1");
-        // });
+            entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Colleges)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_colleges_studentbasic1");
+        });
 
-        // modelBuilder.Entity<DynamicQuestion>(entity =>
-        // {
-        //     entity.HasKey(e => e.QuestionId).HasName("PRIMARY");
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.HasKey(e => new { e.DocumentId, e.StudentbasicStudentId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-        //     entity.HasMany(d => d.E11E11s).WithMany(p => p.DqQuestions)
-        //         .UsingEntity<Dictionary<string, object>>(
-        //             "E11Question",
-        //             r => r.HasOne<E11>().WithMany()
-        //                 .HasForeignKey("E11E11Id")
-        //                 .OnDelete(DeleteBehavior.ClientSetNull)
-        //                 .HasConstraintName("fk_dynamicQuestions_has_e11_e111"),
-        //             l => l.HasOne<DynamicQuestion>().WithMany()
-        //                 .HasForeignKey("DqQuestionId")
-        //                 .OnDelete(DeleteBehavior.ClientSetNull)
-        //                 .HasConstraintName("fk_dynamicQuestions_has_e11_dynamicQuestions1"),
-        //             j =>
-        //             {
-        //                 j.HasKey("DqQuestionId", "E11E11Id")
-        //                     .HasName("PRIMARY")
-        //                     .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-        //                 j.ToTable("e11Questions");
-        //                 j.HasIndex(new[] { "E11E11Id" }, "fk_dynamicQuestions_has_e11_e111");
-        //                 j.IndexerProperty<int>("DqQuestionId").HasColumnName("dq_questionID");
-        //                 j.IndexerProperty<int>("E11E11Id").HasColumnName("e11_e11ID");
-        //             });
-        // });
+            entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Documents)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_documents_studentbasic1");
+        });
 
-        // modelBuilder.Entity<E11>(entity =>
-        // {
-        //     entity.HasKey(e => e.E11Id).HasName("PRIMARY");
+        modelBuilder.Entity<Major>(entity =>
+        {
+            entity.HasKey(e => new { e.MajorId, e.StudentbasicStudentId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-        //     entity.HasMany(d => d.StudentbasicStudents).WithMany(p => p.E11E11s)
-        //         .UsingEntity<Dictionary<string, object>>(
-        //             "E11Selection",
-        //             r => r.HasOne<Studentbasic>().WithMany()
-        //                 .HasForeignKey("StudentbasicStudentId")
-        //                 .OnDelete(DeleteBehavior.ClientSetNull)
-        //                 .HasConstraintName("fk_e11_has_studentbasic_studentbasic1"),
-        //             l => l.HasOne<E11>().WithMany()
-        //                 .HasForeignKey("E11E11Id")
-        //                 .OnDelete(DeleteBehavior.ClientSetNull)
-        //                 .HasConstraintName("fk_e11_has_studentbasic_e111"),
-        //             j =>
-        //             {
-        //                 j.HasKey("E11E11Id", "StudentbasicStudentId")
-        //                     .HasName("PRIMARY")
-        //                     .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-        //                 j.ToTable("e11Selection");
-        //                 j.HasIndex(new[] { "StudentbasicStudentId" }, "fk_e11_has_studentbasic_studentbasic1");
-        //                 j.IndexerProperty<int>("E11E11Id").HasColumnName("e11_e11ID");
-        //                 j.IndexerProperty<string>("StudentbasicStudentId")
-        //                     .HasMaxLength(36)
-        //                     .HasColumnName("studentbasic_studentID");
-        //             });
-        // });
+            entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Majors)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_majors_studentbasic1");
+        });
 
-        // modelBuilder.Entity<Major>(entity =>
-        // {
-        //     entity.HasKey(e => e.MajorId).HasName("PRIMARY");
+        modelBuilder.Entity<Minor>(entity =>
+        {
+            entity.HasKey(e => new { e.MinorId, e.StudentbasicStudentId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-        //     entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Majors)
-        //         .OnDelete(DeleteBehavior.ClientSetNull)
-        //         .HasConstraintName("fk_majors_studentbasic1");
-        // });
+            entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Minors)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_minors_studentbasic1");
+        });
 
-        // modelBuilder.Entity<Minor>(entity =>
-        // {
-        //     entity.HasKey(e => e.MinorId).HasName("PRIMARY");
+        modelBuilder.Entity<Question>(entity =>
+        {
+            entity.HasKey(e => e.QuestionId).HasName("PRIMARY");
+        });
 
-        //     entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Minors)
-        //         .OnDelete(DeleteBehavior.ClientSetNull)
-        //         .HasConstraintName("fk_majors_studentbasic10");
-        // });
+        modelBuilder.Entity<QuestionResponse>(entity =>
+        {
+            entity.HasKey(e => new { e.QuestionsQuestionId, e.StudentbasicStudentId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-        // modelBuilder.Entity<QuestionResponse>(entity =>
-        // {
-        //     entity.HasKey(e => new { e.StudentbasicStudentId, e.DynamicQuestionsQuestionId })
-        //         .HasName("PRIMARY")
-        //         .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+            entity.HasOne(d => d.QuestionsQuestion).WithMany(p => p.QuestionResponses)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_questionResponse_questions1");
 
-        //     entity.HasOne(d => d.DynamicQuestionsQuestion).WithMany(p => p.QuestionResponses)
-        //         .OnDelete(DeleteBehavior.ClientSetNull)
-        //         .HasConstraintName("fk_questionResponse_dynamicQuestions1");
+            entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.QuestionResponses)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_questionResponse_studentbasic1");
+        });
 
-        //     entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.QuestionResponses)
-        //         .OnDelete(DeleteBehavior.ClientSetNull)
-        //         .HasConstraintName("fk_questionResponse_studentbasic1");
-        // });
+        modelBuilder.Entity<Recommender>(entity =>
+        {
+            entity.HasKey(e => new { e.RecomId, e.StudentbasicStudentId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-        // modelBuilder.Entity<Recommender>(entity =>
-        // {
-        //     entity.HasKey(e => new { e.RecomId, e.StudentbasicStudentId })
-        //         .HasName("PRIMARY")
-        //         .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+            entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Recommenders)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_recommenders_studentbasic1");
+        });
 
-        //     entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Recommenders)
-        //         .OnDelete(DeleteBehavior.ClientSetNull)
-        //         .HasConstraintName("fk_recommenders_studentbasic1");
-        // });
+        modelBuilder.Entity<Result>(entity =>
+        {
+            entity.HasKey(e => new { e.ResultId, e.StudentbasicStudentId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-        // modelBuilder.Entity<Result>(entity =>
-        // {
-        //     entity.HasKey(e => new { e.CurStatus, e.StudentbasicStudentId })
-        //         .HasName("PRIMARY")
-        //         .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+            entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Results)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_results_studentbasic1");
+        });
 
-        //     entity.HasOne(d => d.StudentbasicStudent).WithMany(p => p.Results)
-        //         .OnDelete(DeleteBehavior.ClientSetNull)
-        //         .HasConstraintName("fk_results_studentbasic1");
-        // });
+        modelBuilder.Entity<Scholarship>(entity =>
+        {
+            entity.HasKey(e => e.ScholId).HasName("PRIMARY");
+
+            entity.HasMany(d => d.QuestionsQuestions).WithMany(p => p.ScholarshipsSchols)
+                .UsingEntity<Dictionary<string, object>>(
+                    "QuestionCorrespond",
+                    r => r.HasOne<Question>().WithMany()
+                        .HasForeignKey("QuestionsQuestionId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_questionCorrespond_questions1"),
+                    l => l.HasOne<Scholarship>().WithMany()
+                        .HasForeignKey("ScholarshipsScholId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_questionCorrespond_scholarships1"),
+                    j =>
+                    {
+                        j.HasKey("ScholarshipsScholId", "QuestionsQuestionId")
+                            .HasName("PRIMARY")
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                        j.ToTable("questionCorrespond");
+                        j.HasIndex(new[] { "QuestionsQuestionId" }, "fk_questionCorrespond_questions1");
+                        j.IndexerProperty<int>("ScholarshipsScholId").HasColumnName("scholarships_scholID");
+                        j.IndexerProperty<int>("QuestionsQuestionId").HasColumnName("questions_questionID");
+                    });
+        });
 
         modelBuilder.Entity<Studentbasic>(entity =>
         {
             entity.HasKey(e => e.StudentId).HasName("PRIMARY");
+
+            entity.HasMany(d => d.ScholarshipsSchols).WithMany(p => p.StudentbasicStudents)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ScholarSelection",
+                    r => r.HasOne<Scholarship>().WithMany()
+                        .HasForeignKey("ScholarshipsScholId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_questionSelection_scholarships1"),
+                    l => l.HasOne<Studentbasic>().WithMany()
+                        .HasForeignKey("StudentbasicStudentId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_e11_has_studentbasic_studentbasic1"),
+                    j =>
+                    {
+                        j.HasKey("StudentbasicStudentId", "ScholarshipsScholId")
+                            .HasName("PRIMARY")
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                        j.ToTable("scholarSelection");
+                        j.HasIndex(new[] { "ScholarshipsScholId" }, "fk_questionSelection_scholarships1");
+                        j.IndexerProperty<string>("StudentbasicStudentId")
+                            .HasMaxLength(36)
+                            .HasColumnName("studentbasic_studentID");
+                        j.IndexerProperty<int>("ScholarshipsScholId").HasColumnName("scholarships_scholID");
+                    });
         });
 
         modelBuilder.Entity<Studentdetail>(entity =>
@@ -208,35 +220,6 @@ public partial class DataContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_studentdetail_studentbasic1");
         });
-
-        // modelBuilder.Entity<T10>(entity =>
-        // {
-        //     entity.HasKey(e => e.T10Id).HasName("PRIMARY");
-
-        //     entity.HasMany(d => d.StudentbasicStudents).WithMany(p => p.T10T10s)
-        //         .UsingEntity<Dictionary<string, object>>(
-        //             "T10Selection",
-        //             r => r.HasOne<Studentbasic>().WithMany()
-        //                 .HasForeignKey("StudentbasicStudentId")
-        //                 .OnDelete(DeleteBehavior.ClientSetNull)
-        //                 .HasConstraintName("fk_t10_has_studentbasic_studentbasic1"),
-        //             l => l.HasOne<T10>().WithMany()
-        //                 .HasForeignKey("T10T10Id")
-        //                 .OnDelete(DeleteBehavior.ClientSetNull)
-        //                 .HasConstraintName("fk_t10_has_studentbasic_t101"),
-        //             j =>
-        //             {
-        //                 j.HasKey("T10T10Id", "StudentbasicStudentId")
-        //                     .HasName("PRIMARY")
-        //                     .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-        //                 j.ToTable("t10Selection");
-        //                 j.HasIndex(new[] { "StudentbasicStudentId" }, "fk_t10_has_studentbasic_studentbasic1");
-        //                 j.IndexerProperty<int>("T10T10Id").HasColumnName("t10_t10ID");
-        //                 j.IndexerProperty<string>("StudentbasicStudentId")
-        //                     .HasMaxLength(36)
-        //                     .HasColumnName("studentbasic_studentID");
-        //             });
-        // });
 
         OnModelCreatingPartial(modelBuilder);
     }
